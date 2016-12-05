@@ -1,6 +1,6 @@
 export default class PubSubEs6 {
   static publish(...args){
-    let actionName = Array.slice(args).shift()
+    let actionName = Array.prototype.slice.call(args).shift()
     this[`_${actionName}`].forEach(function(fnc){ fnc.call(...args) })
   }
   static when(action, fnc){
