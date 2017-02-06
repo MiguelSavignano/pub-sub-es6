@@ -25,11 +25,11 @@ class ShoppingCard extends React.Component {
 class Item extends React.Component {
   state = {selected: false}
   onClickHandler(item){
-    dispatch("ADD_ITEM", this.prps.item, this.props.anyProp)
+    dispatch("ADD_ITEM", this.props.item, this.props.anyProp)
     this.setState(selected: true)
   }
 }
-
+```
 ## dispatch
 ```javascript
   dispatch("USER.CLICK_IN_AD", adData)
@@ -42,11 +42,13 @@ class Item extends React.Component {
 ```javascript
   @on("ACTION_NAME") function(data) { console.log("use decorators!!") }
 ```
-## unsubscribe
-  ## receive
+## receive
 ```javascript
    var fnc = (data) => {}
   receive("MESSAGE", fnc, "uid-token" )
+ ```
+## unsubscribe
+```javascript
   unsubscribe("MESSAGE", "uid-token") // anyone can unsubscibe 
  ```
 ## findSubscriptions
