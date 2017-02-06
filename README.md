@@ -42,13 +42,10 @@ class Item extends React.Component {
 ```javascript
   @on("ACTION_NAME") function(data) { console.log("use decorators!!") }
 ```
-## receive
-```javascript
-   var fnc = (data) => {}
-  receive("MESSAGE", fnc, "uid-token" )
- ```
 ## unsubscribe
 ```javascript
+  var fnc = (data) => {}
+  receive("MESSAGE", fnc, "uid-token" )
   unsubscribe("MESSAGE", "uid-token") // anyone can unsubscibe 
  ```
 ## findSubscriptions
