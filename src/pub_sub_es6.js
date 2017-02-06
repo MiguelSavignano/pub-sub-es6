@@ -32,7 +32,7 @@ const unsubscribe = (actionName, fnc_or_uid) => {
 const destroyAllActions = () => ACTIONS = []
 const actions = () => [...ACTIONS]
 //Decorator
-const when = function(type) {
+const on = function(type) {
   return function when(target, name, descriptor){
     var oldComponentDidMountFnc = target.componentDidMount
     Object.defineProperty(target.constructor.prototype, "componentDidMount", {
@@ -50,6 +50,5 @@ const when = function(type) {
 const send             = dispatch
 const publish          = dispatch
 const broadcast        = dispatch
-const on               = receive
 const addEventListener = receive
 export {dispatch, receive, unsubscribe, actions, send, publish, broadcast, on, when, addEventListener};
