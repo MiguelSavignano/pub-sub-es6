@@ -7,8 +7,7 @@
     "test": "npm test",
     "patch": "npm version patch",
     "minor": "npm version minor",
-    "major": "npm version major",
-    "deploy": "./build && npm version minor && npm publish"
+    "major": "npm version major"
   },
   "keywords": [
     "pubsub",
