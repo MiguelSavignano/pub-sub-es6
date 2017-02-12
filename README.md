@@ -46,7 +46,7 @@ class Item extends React.Component {
 ```javascript
   var fnc = (data) => {}
   receive("MESSAGE", fnc, "uid-token" )
-  unsubscribe("MESSAGE", "uid-token") // anyone can unsubscibe 
+  unsubscribe("MESSAGE", "uid-token") // anyone can unsubscribe
  ```
 ## findSubscriptions
  ```javascript
