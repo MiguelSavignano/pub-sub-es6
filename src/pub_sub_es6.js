@@ -15,11 +15,15 @@ const dispatch = (...args) => {
   let actionName = Array.prototype.slice.call(args).shift()
   let action = find(actionName)
   if (!action) return console.warn(`No't found subscriber to the Action ${actionName}`)
-  action.subscriptions.forEach(message => message.fnc.call(...args)) //send all arguments except the action name
+  action.subscriptions.forEach(message => {
+    message.fnc.call(...args) //send all arguments expect the action name
+    debuggerConsole(action.name, message.uid)
+  })
 }
 const receive = (actionName, fnc, uid) => {
   const action = find(actionName) || {name: actionName, subscriptions: []}
   action.subscriptions = [ ...action.subscriptions, { uid, fnc } ]
+  debuggerConsole(actionName, uid)
   updateACTIONS([...ACTIONS, action ])
 }
 const unsubscribe = (actionName, fnc_or_uid) => {
@@ -37,18 +41,31 @@ const on = function(type) {
     var oldComponentDidMountFnc = target.componentDidMount
     Object.defineProperty(target.constructor.prototype, "componentDidMount", {
         value: function() {
-          receive(type, this[name].bind(this))
-          if(oldComponentDidMountFnc) oldComponentDidMountFnc()
+          let reactUid = this._reactInternalInstance._debugID
+          let uid = `${reactUid}-${target.constructor.name}`
+          receive(type, this[name].bind(this), uid)
+          if(oldComponentDidMountFnc) oldComponentDidMountFnc.bind(this)()
+        }
+      })
+   var oldComponentWillUnmountFnc = target.componentWillUnmount
+   Object.defineProperty(target.constructor.prototype, "componentWillUnmount", {
+        value: function() {
+          let reactUid = this._reactInternalInstance._debugID
+          let uid = `${reactUid}-${target.constructor.name}`
+          unsubscribe(type, uid)
+          if(oldComponentWillUnmountFnc) oldComponentWillUnmountFnc.bind(this)()
         }
       })
     return descriptor.value
   }
 }
-
+const enableDebugger = false
+const debuggerConsole = function(){ enableDebugger && console.log(...arguments) }
 
 //alias
 const send             = dispatch
 const publish          = dispatch
 const broadcast        = dispatch
 const addEventListener = receive
-export {dispatch, receive, unsubscribe, actions, send, publish, broadcast, on, when, addEventListener};
+export {dispatch, receive, on, unsubscribe,
+        actions, find, findSubscriptions, findSubscriptionsFnc}
