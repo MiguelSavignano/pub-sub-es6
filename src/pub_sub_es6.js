@@ -7,13 +7,20 @@
 // ]
 // message { fnc, uid, fncName }
 var ACTIONS = []
+var genetageUid = function(){
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+      return v.toString(16);
+  });
+}
+
 const find                 = (actionName) => ACTIONS.find( action => action.name == actionName)
 const findSubscriptions    = (actionName) => find(actionName).subscriptions
 const findSubscriptionsFnc = (actionName) => findSubscriptions(actionName).map(message => message.fnc)
 const dispatch = (...args) => {
   let actionName = Array.prototype.slice.call(args).shift()
   let action = find(actionName)
-  if (!action) return console.warn(`No't found subscriber to the Action ${actionName}`)
+  if (!action || action.subscriptions.length == 0) return console.warn(`No't found subscriber to the Action ${actionName}`)
   action.subscriptions.forEach(message => {
     message.fnc.call(...args) //send all arguments expect the action name
   })
@@ -45,27 +52,25 @@ const actions = () => [...ACTIONS]
 const on = function(actionType, options={}) {
   return function on(target, name, descriptor){
     var oldComponentDidMountFnc = target.componentDidMount
-    Object.defineProperty(target.constructor.prototype, "componentDidMount", {
-        value: function() {
-          const scopeValue = _callChainMethods(this, options.scope)
-          const actionName = _generateActionNameReact({actionType, scopeValue})
-          const uid        = _generateUidReact({target, scopeValue, reactInstance: this})
-          receive(actionName, this[name].bind(this), uid)
-          if(oldComponentDidMountFnc) oldComponentDidMountFnc.bind(this)()
-        },
-        configurable: true,
+    target.componentDidMount = function(){
+      const scopeValue = _callChainMethods(this, options.scope)
+      const actionName = _generateActionNameReact({actionType, scopeValue})
+      const uid        = _generateUidReact({target, scopeValue })
+      this._pub_sub_es6_internal_uids = this._pub_sub_es6_internal_uids || []
+      this._pub_sub_es6_internal_uids.push(uid)
+      receive(actionName, this[name].bind(this), uid)
+      if(oldComponentDidMountFnc) oldComponentDidMountFnc.bind(this)()
+    }
+    var oldComponentWillUnmountFnc = target.componentWillUnmount
+    target.componentWillUnmount = function(){
+      const scopeValue = _callChainMethods(this, options.scope)
+      const actionName = _generateActionNameReact({actionType, scopeValue})
+      this._pub_sub_es6_internal_uids && this._pub_sub_es6_internal_uids.forEach( (uid) => {
+        unsubscribe(actionName, uid)
       })
-   var oldComponentWillUnmountFnc = target.componentWillUnmount
-   Object.defineProperty(target.constructor.prototype, "componentWillUnmount", {
-        value: function() {
-          const scopeValue = _callChainMethods(this, options.scope)
-          const actionName = _generateActionNameReact({actionType, scopeValue})
-          const uid        = _generateUidReact({target, scopeValue, reactInstance: this})
-          unsubscribe(actionName, uid)
-          if(oldComponentWillUnmountFnc) oldComponentWillUnmountFnc.bind(this)()
-        },
-        configurable: true,
-      })
+      this._pub_sub_es6_internal_uids = []
+      if(oldComponentWillUnmountFnc) oldComponentWillUnmountFnc.bind(this)()
+    }
     return descriptor.value
   }
 }
@@ -82,8 +87,8 @@ const config = {
 }
 const debuggerConsole = function(){ config.enableDebugger && console.info(...arguments) }
 
-function _generateUidReact({target, reactInstance, scopeValue}){
-  let reactUid = reactInstance._reactInternalInstance._debugID
+function _generateUidReact({target, scopeValue}){
+  let reactUid      = genetageUid()
   let componentName = target.constructor.name
   return scopeValue ? `${reactUid}-${componentName}|${scopeValue}` : `${reactUid}-${componentName}`
 }
