@@ -1,13 +1,10 @@
 {
   "name": "pub-sub-es6",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "simple publish and subscribe library for comunicate js objects, react componetes, DOM events...",
   "main": "pub_sub_es6.js",
   "scripts": {
-    "test": "npm test",
-    "patch": "npm version patch",
-    "minor": "npm version minor",
-    "major": "npm version major"
+    "test": "npm test"
   },
   "keywords": [
     "pubsub",
