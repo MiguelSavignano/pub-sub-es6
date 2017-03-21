@@ -7,28 +7,38 @@ We can simply think of giving a name to that complex action and send any data we
 
 You can send your subscribers many arguments and of any kind; anyone who has subscribed to this event can execute an action
 
+## install
+```sh
+npm install 'pub-sub-es6' --save
+```
 ## React 
 When you need to comunicate componentes maybe you find many difficulties.
 You can resolve it sending a message to the other component.
 
 ```javascript
-import {dispatch, receive, on}  from '../../lib/pub_sub_es6'
+import {dispatch, receive, on}  from 'pub-sub-es6'
 
 class ShoppingCard extends React.Component {
   state = { items: [] }
   @on("ADD_ITEM")
-  onAddIem(item, anyCustomArguments){ 
+  onAddIem(item){ 
     this.setState({ items: [item, ...this.state.items] })
   }
 }
 
+const StatsManager = @on("ADD_ITEM") async (item, language) => {
+  $.post("/stats/items/add_item", { item, languaje } )
+}
+
 class Item extends React.Component {
   state = {selected: false}
+  const {item, user, language} = this.props
   onClickHandler(item){
-    dispatch("ADD_ITEM", this.props.item, this.props.anyProp)
+    dispatch("ADD_ITEM", this.props.item, language)
     this.setState(selected: true)
   }
 }
+
 ```
 ## dispatch
 ```javascript
