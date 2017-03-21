@@ -53,17 +53,16 @@ const destroyAllActions = () => ACTIONS = []
 const actions = () => [...ACTIONS]
 //Decorator
 const on = function(actionType) {
-  const uid = _generateUidReact({target})
   return function on(target, name, descriptor){
-    var oldComponentDidMountFnc = target.componentDidMount
+    const uid = _generateUidReact({target})
+
     target.componentDidMount = function(){
       receive(actionName, this[name].bind(this), uid)
-      if(oldComponentDidMountFnc) oldComponentDidMountFnc.bind(this)()
+      if (target.componentDidMount) target.componentDidMount.bind(this)()
     }
-    var oldComponentWillUnmountFnc = target.componentWillUnmount
     target.componentWillUnmount = function(){
       unsubscribe(actionType, uid)
-      if(oldComponentWillUnmountFnc) oldComponentWillUnmountFnc.bind(this)()
+      if (target.componentWillUnmount) target.componentWillUnmount.bind(this)()
     }
     return descriptor.value
   }
@@ -89,10 +88,9 @@ const debuggerConsole = function(){
   } 
 }
 
-function _generateUidReact({target, scopeValue}){
-  let reactUid      = genetageUid()
+function _generateUidReact({target}){
   let componentName = target.constructor.name
-  return `${reactUid}-${componentName}`
+  return `${genetageUid()}-${componentName}`
 }
 
 //alias
