@@ -15,28 +15,29 @@ npm install 'pub-sub-es6' --save
 When you need to comunicate componentes maybe you find many difficulties.
 You can resolve it sending a message to the other component.
 
+The function onAddItem will be called when dispatched the action "ADD_ITEM".
+
 ```javascript
 import {dispatch, receive, on}  from 'pub-sub-es6'
 
 class ShoppingCard extends React.Component {
+
   state = { items: [] }
+
   @on("ADD_ITEM")
-  onAddIem(item){ 
+  onAddIem(item, language){ 
     this.setState({ items: [item, ...this.state.items] })
   }
-}
 
-const StatsManager = @on("ADD_ITEM") async (item, language) => {
-  $.post("/stats/items/add_item", { item, languaje } )
 }
 
 class Item extends React.Component {
-  state = {selected: false}
-  const {item, user, language} = this.props
+
   onClickHandler(item){
-    dispatch("ADD_ITEM", this.props.item, language)
-    this.setState(selected: true)
+    const {item, language} = this.props
+    dispatch("ADD_ITEM", item, language)
   }
+
 }
 
 ```
@@ -48,14 +49,10 @@ class Item extends React.Component {
 ```javascript
   receive("OPEN_SIGN_IN", (type) => type == 'modal' ? openModal() : redirectToSignIn() )
  ```
-## on
-```javascript
-  @on("ACTION_NAME") function(data) { console.log("use decorators!!") }
-```
 ## unsubscribe
 ```javascript
   var fnc = (data) => {}
-  receive("MESSAGE", fnc, "uid-token" )
+  receive("MESSAGE", fnc, "uid-token")
   unsubscribe("MESSAGE", "uid-token") // anyone can unsubscribe
  ```
 ## findSubscriptions
@@ -68,4 +65,34 @@ class Item extends React.Component {
    actions()
    //[ { actionName, subscriptions: [ {fnc, uid} ] ]
 ```
+
+## React comunucation with plain javascript
+
+1. Export PubSubEs6 Global example in webpack entry file
+```javascript
+import { PubSubEs6 } from 'pub-sub-es6'
+global.PubSubEs6 = PubSubEs6
+```
+
+```javascript
+//shopping_card.jsx
+class ShoppingCard extends React.Component {
+
+  state = { items: [] }
+
+  @on("ADD_ITEM")
+  onAddIem(item, language){ 
+    this.setState({ items: [item, ...this.state.items] })
+  }
+
+}
+```
+
+```javascript
+//my_controller.js
+$(".item-action-add").on("click", function(event){
+  PubSubEs6.dispatch("ADD_ITEM", $(this).data("item"))
+})
+```
+
 
