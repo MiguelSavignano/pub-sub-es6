@@ -19,7 +19,7 @@ The function onAddItem will be called when dispatched the action "ADD_ITEM".
 
 ```javascript
 import {dispatch, receive, on}  from 'pub-sub-es6'
-
+//shopping_card.jsx
 class ShoppingCard extends React.Component {
 
   state = { items: [] }
@@ -29,13 +29,22 @@ class ShoppingCard extends React.Component {
     this.setState({ items: [item, ...this.state.items] })
   }
 
+  render(){
+    //....
+  }
+
 }
 
+//item.jsx
 class Item extends React.Component {
 
   onClickHandler(item){
     const {item, language} = this.props
     dispatch("ADD_ITEM", item, language)
+  }
+
+  render(){
+    //....
   }
 
 }
@@ -63,6 +72,11 @@ class Item extends React.Component {
 ## actions
  ```javascript
    actions()
+   //[ { actionName, subscriptions: [ {fnc, uid} ] ]
+```
+## status
+ ```javascript
+   status()
    //[ { actionName, subscriptions: [ {fnc, uid} ] ]
 ```
 
@@ -94,5 +108,41 @@ $(".item-action-add").on("click", function(event){
   PubSubEs6.dispatch("ADD_ITEM", $(this).data("item"))
 })
 ```
+
+## Actions named
+* The actions names it's a global name, it's recomended create a file with the actions names to avoid duplicate a action name.
+
+```javascript
+//site_actions.js
+const actionsSite = {
+  item:{
+    add: "ADD_ITEM",
+  }
+}
+
+//item.jsx
+import actionsSite from './site_actions'
+
+const actions = {
+  add: actionsSite.item.add
+}
+
+class Item extends React.Component {
+
+  onClickHandler(item){
+    const {item, language} = this.props
+    dispatch(actions.add, item, language)
+  }
+
+  render(){
+    //....
+  }
+
+}
+```
+
+
+ 
+
 
 
