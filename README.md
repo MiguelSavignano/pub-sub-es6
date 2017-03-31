@@ -66,9 +66,9 @@ class Item extends React.Component {
    //[ { actionName, subscriptions: [ {fnc, uid} ] ]
 ```
 
-## React comunucation with plain javascript
+## React comunication with plain javascript
 
-1. Export PubSubEs6 Global example in webpack entry file
+1. Export PubSubEs6 Global, example in webpack entry file
 ```javascript
 import { PubSubEs6 } from 'pub-sub-es6'
 global.PubSubEs6 = PubSubEs6
