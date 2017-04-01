@@ -51,12 +51,18 @@ const on = function(actionType) {
 
     target.componentDidMount = function(){
       const uid = _generateUidReact({ target })
-      this.pub_sub_es6_uid = uid
+      if (this._pub_sub_es6_internal_uids) {
+        this._pub_sub_es6_internal_uids = [...this._pub_sub_es6_internal_uids, uid]
+      } else {
+        this._pub_sub_es6_internal_uids = [uid]
+      }
       receive(actionType, this[name].bind(this), uid)
       if (oldComponentDidMountFnc) oldComponentDidMountFnc.bind(this)()
     }
     target.componentWillUnmount = function(){
-      unsubscribe(actionType, this.pub_sub_es6_uid)
+      this._pub_sub_es6_internal_uids && this._pub_sub_es6_internal_uids.map(uid => {
+        unsubscribe(actionType, uid)
+      })
       if(oldComponentWillUnmountFnc) oldComponentWillUnmountFnc.bind(this)()
     }
     return descriptor.value
