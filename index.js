@@ -1,1 +1,1 @@
-module.exports = require('./lib/pub_sub_es6');
+module.exports = require('./lib/pub-sub-es6');
