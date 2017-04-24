@@ -1,1 +1,1 @@
-module.exports = require('./lib/react-pub-sub');
+module.exports = require('./lib/pub-sub-es6');
