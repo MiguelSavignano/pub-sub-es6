@@ -1,4 +1,4 @@
-import {receive, dispatch} from '../src/pub-sub-es6'
+import { receive, dispatch } from '../src/react-pub-sub'
 
 test('receive', () => {
   const result = receive("someAction", () => {}, "myCoustomUid")

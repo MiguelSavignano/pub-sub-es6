@@ -110,6 +110,6 @@ class ReactPubSub {
 
 }
 
-export default new ReactPubSub
+export default new ReactPubSub()
 
 
