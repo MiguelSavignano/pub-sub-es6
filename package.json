@@ -1,6 +1,6 @@
 {
   "name": "pub-sub-es6",
-  "version": "1.4.11",
+  "version": "1.4.12",
   "description": "simple publish and subscribe library for comunicate js objects, react componetes, DOM events.",
   "main": "pub_sub_es6.js",
   "repository": "https://github.com/MiguelSavignano/pub-sub-es6",
