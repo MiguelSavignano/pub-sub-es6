@@ -1,15 +1,17 @@
 const webpack = require('webpack');
 const path = require('path');
 
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+
 const config = {
 
   entry: [
-    './examples/app',
+    './src/pub-sub-es6',
   ],
 
   output : {
-    filename : 'bundle.js',
-    path : path.resolve('./examples'),
+    filename : 'pub-sub-es6.js',
+    path : path.resolve('./lib/'),
   },
 
   module : {
@@ -22,6 +24,9 @@ const config = {
     ]
   },
 
+  // plugins : [
+  //   new UglifyJSPlugin()
+  // ],
 }
 
 module.exports = config;
