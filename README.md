@@ -9,7 +9,7 @@ You can send your subscribers many arguments and of any kind; anyone who has sub
 
 ## install
 ```sh
-npm install 'pub-sub-es6' --save
+npm install pub-sub-es6 --save
 ```
 ## React 
 When you need to comunicate componentes maybe you find many difficulties.
@@ -77,7 +77,7 @@ class Item extends React.Component {
 ## status
  ```javascript
    status()
-   //[ { actionName, subscriptions: [ {fnc, uid} ] ]
+   //All subscribers for the Action (ADD_ITEM) = `, `[ b48saw774as-ShoppingCard -> onAddIem ]
 ```
 
 ## React comunication with plain javascript
@@ -123,15 +123,13 @@ const actionsSite = {
 //item.jsx
 import actionsSite from './site_actions'
 
-const actions = {
-  add: actionsSite.item.add
-}
+const action = actionsSite.item
 
 class Item extends React.Component {
 
   onClickHandler(item){
     const {item, language} = this.props
-    dispatch(actions.add, item, language)
+    dispatch(action.add, item, language)
   }
 
   render(){
@@ -141,7 +139,13 @@ class Item extends React.Component {
 }
 ```
 
+## Decorator configuration 
 
+The decorator @on only works with react components
+
+this decorator only subscribe in the componentDidMount and unsubscribe in the componentWillUnmount functions
+
+to enable decorators see [decorators](https://github.com/loganfsmyth/babel-plugin-transform-decorators-legacy)
  
 
 
