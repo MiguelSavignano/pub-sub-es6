@@ -7,7 +7,7 @@
   "bugs": "https://github.com/MiguelSavignano/pub-sub-es6/issues",
   "scripts": {
     "start": "webpack -w --config webpack.config.js",
-    "build": "webpack -w --config webpack.config.production.js",
+    "build": "babel src/pub-sub-es6.js --out-file lib/pub-sub-es6.js",
     "test": "jest"
   },
   "keywords": [

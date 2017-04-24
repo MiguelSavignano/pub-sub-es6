@@ -1,8 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { autoSubscription, dispatch } from '../src/react-pub-sub'
+import { on, dispatch } from '../lib/pub-sub-es6'
 
 class App extends React.Component {
+  @on("HI")
   onHi(message){
     console.log(message)
   }

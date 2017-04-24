@@ -9508,6 +9508,8 @@ module.exports = getIteratorFn;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _dec, _desc, _value, _class;
+
 var _react = __webpack_require__(182);
 
 var _react2 = _interopRequireDefault(_react);
@@ -9516,7 +9518,7 @@ var _reactDom = __webpack_require__(98);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _reactPubSub = __webpack_require__(81);
+var _pubSubEs = __webpack_require__(184);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -9526,7 +9528,36 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var App = function (_React$Component) {
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
+  var desc = {};
+  Object['ke' + 'ys'](descriptor).forEach(function (key) {
+    desc[key] = descriptor[key];
+  });
+  desc.enumerable = !!desc.enumerable;
+  desc.configurable = !!desc.configurable;
+
+  if ('value' in desc || desc.initializer) {
+    desc.writable = true;
+  }
+
+  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+    return decorator(target, property, desc) || desc;
+  }, desc);
+
+  if (context && desc.initializer !== void 0) {
+    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+    desc.initializer = undefined;
+  }
+
+  if (desc.initializer === void 0) {
+    Object['define' + 'Property'](target, property, desc);
+    desc = null;
+  }
+
+  return desc;
+}
+
+var App = (_dec = (0, _pubSubEs.on)("HI"), (_class = function (_React$Component) {
   _inherits(App, _React$Component);
 
   function App() {
@@ -9552,166 +9583,15 @@ var App = function (_React$Component) {
   }]);
 
   return App;
-}(_react2.default.Component);
+}(_react2.default.Component), (_applyDecoratedDescriptor(_class.prototype, 'onHi', [_dec], Object.getOwnPropertyDescriptor(_class.prototype, 'onHi'), _class.prototype)), _class));
+
 
 _reactDom2.default.render(_react2.default.createElement(App, null), document.getElementById("react-root"));
 
-(0, _reactPubSub.dispatch)("HI", "Miguel");
+(0, _pubSubEs.dispatch)("HI", "Miguel");
 
 /***/ }),
-/* 81 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-// actions = [
-//   {
-//     name,
-//     subscriptions: [ message ]
-//   }
-// ]
-// message { fnc, uid, fncName }
-
-
-var _genetageUid = function _genetageUid() {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-    var r = Math.random() * 16 | 0,
-        v = c == 'x' ? r : r & 0x3 | 0x8;
-    return v.toString(16);
-  });
-};
-
-function _generateUidReact(_ref) {
-  var target = _ref.target;
-
-  var componentName = target.constructor.name;
-  return _genetageUid() + '-' + componentName;
-}
-
-var ReactPubSub = function ReactPubSub() {
-  var _this = this,
-      _arguments = arguments;
-
-  _classCallCheck(this, ReactPubSub);
-
-  this.find = function (actionName) {
-    return _this.ACTIONS.find(function (action) {
-      return action.name == actionName;
-    });
-  };
-
-  this.receive = function (actionName, fnc, uid) {
-    var uid = uid || _genetageUid();
-    var action = _this.find(actionName);
-    if (!action) {
-      action = { name: actionName, subscriptions: [] };
-      _this.ACTIONS.push(action);
-    }
-    action.subscriptions.push({ fnc: fnc, uid: uid, fncName: fnc.name });
-    _this.debuggerConsole(uid + ' receive ' + actionName + ' with', fnc.name);
-    return uid;
-  };
-
-  this.dispatch = function () {
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    var actionName = Array.prototype.slice.call(args).shift();
-    var action = _this.find(actionName);
-    if (!action || action.subscriptions.length == 0) return console.warn('No\'t found subscriber to the Action ' + actionName);
-    action.subscriptions.forEach(function (message) {
-      var _message$fnc;
-
-      (_message$fnc = message.fnc).call.apply(_message$fnc, args); //send all arguments expect the action name
-    });
-    _this.debuggerConsole("dispatch", {
-      actionName: actionName,
-      subscriptions: action.subscriptions,
-      message: args.filter(function (item, index) {
-        return index != 0;
-      })
-    });
-  };
-
-  this.unsubscribe = function (actionName, fnc_or_uid) {
-    if (!fnc_or_uid) return console.error("send a function or uid for unsubscribe");
-    var key = typeof fnc_or_uid === 'string' ? 'uid' : 'fnc';
-    var action = _this.find(actionName);
-    action.subscriptions = action.subscriptions.filter(function (message) {
-      return message[key] !== fnc_or_uid;
-    });
-    _this.debuggerConsole(fnc_or_uid + ' unsubscribe for ' + actionName);
-  };
-
-  this.autoSubscription = function (actionType) {
-    var self = _this;
-    return function on(target, name, descriptor) {
-      var oldComponentDidMountFnc = target.componentDidMount;
-      var oldComponentWillUnmountFnc = target.componentWillUnmount;
-
-      target.componentDidMount = function () {
-        var uid = _generateUidReact({ target: target });
-        if (!this.__uids__) this.__uids__ = [];
-        this.__uids__.push(uid);
-        slef.receive(actionType, this[name].bind(this), uid);
-        if (oldComponentDidMountFnc) oldComponentDidMountFnc.bind(this)();
-      };
-
-      target.componentWillUnmount = function () {
-        this.__uids__ && this.__uids__.map(function (uid) {
-          return self.unsubscribe(actionType, uid);
-        });
-        if (oldComponentWillUnmountFnc) oldComponentWillUnmountFnc.bind(this)();
-      };
-
-      return descriptor.value;
-    };
-  };
-
-  this.status = function () {
-    _this.actions().map(function (action) {
-      var subscriptionMessage = findSubscriptions(action.name).map(function (message) {
-        return message.uid + ' -> ' + message.fnc.name;
-      });
-      console.log('All subscribers for the Action (' + action.name + ') = ', '[ ' + subscriptionMessage + ' ]');
-    });
-  };
-
-  this.debuggerConsole = function () {
-    if (_this.config.enableDebugger) {
-      if (_arguments[0] == "dispatch") {
-        var _console;
-
-        (_console = console).info.apply(_console, _arguments);
-      } else if (_this.config.trace) {
-        var _console2;
-
-        (_console2 = console).info.apply(_console2, _arguments);
-      }
-    }
-  };
-
-  this.ACTIONS = [];
-  this.config = {
-    enableDebugger: false,
-    trace: false
-  };
-}
-
-// Decorator
-;
-
-exports.default = new ReactPubSub();
-
-/***/ }),
+/* 81 */,
 /* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -22190,6 +22070,195 @@ module.exports = __webpack_require__(19);
 
 module.exports = __webpack_require__(80);
 
+
+/***/ }),
+/* 184 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+function _toConsumableArray(arr) {
+  if (Array.isArray(arr)) {
+    for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
+      arr2[i] = arr[i];
+    }return arr2;
+  } else {
+    return Array.from(arr);
+  }
+}
+
+// actions = [
+//   {
+//     name,
+//     subscriptions: [ message ]
+//   }
+// ]
+// message { fnc, uid, fncName }
+var ACTIONS = [];
+
+var receive = function receive(actionName, fnc, uid) {
+  var uid = uid || _genetageUid();
+  var action = find(actionName);
+  if (!action) {
+    action = { name: actionName, subscriptions: [] };
+    ACTIONS.push(action);
+  }
+  var fncName = fnc.name;
+  action.subscriptions.push({ fnc: fnc, uid: uid, fncName: fncName });
+  debuggerConsole(uid + " receive " + actionName + " with", fnc.name);
+  return uid;
+};
+
+var dispatch = function dispatch() {
+  for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+    args[_key] = arguments[_key];
+  }
+
+  var actionName = Array.prototype.slice.call(args).shift();
+  var action = find(actionName);
+  if (!action || action.subscriptions.length == 0) return console.warn("No't found subscriber to the Action " + actionName);
+  action.subscriptions.forEach(function (message) {
+    var _message$fnc;
+
+    (_message$fnc = message.fnc).call.apply(_message$fnc, args); //send all arguments expect the action name
+  });
+  debuggerConsole("dispatch", {
+    actionName: actionName,
+    subscriptions: action.subscriptions,
+    message: args.filter(function (item, index) {
+      return index != 0;
+    })
+  });
+  return true;
+};
+
+var unsubscribe = function unsubscribe(actionName, fnc_or_uid) {
+  if (!fnc_or_uid) return console.error("send a function or uid for unsubscribe");
+  var key = typeof fnc_or_uid === 'string' ? 'uid' : 'fnc';
+  var action = find(actionName);
+  action.subscriptions = action.subscriptions.filter(function (message) {
+    return message[key] !== fnc_or_uid;
+  });
+  debuggerConsole(fnc_or_uid + " unsubscribe for " + actionName);
+};
+
+//Decorator
+var on = function on(actionType) {
+  return function on(target, name, descriptor) {
+    var oldComponentDidMountFnc = target.componentDidMount;
+    var oldComponentWillUnmountFnc = target.componentWillUnmount;
+
+    target.componentDidMount = function () {
+      var uid = _generateUidReact({ target: target });
+      if (!this.__uids__) this.__uids__ = [];
+      this.__uids__.push(uid);
+      receive(actionType, this[name].bind(this), uid);
+      if (oldComponentDidMountFnc) oldComponentDidMountFnc.bind(this)();
+    };
+
+    target.componentWillUnmount = function () {
+      this.__uids__ && this.__uids__.map(function (uid) {
+        return unsubscribe(actionType, uid);
+      });
+      if (oldComponentWillUnmountFnc) oldComponentWillUnmountFnc.bind(this)();
+    };
+
+    return descriptor.value;
+  };
+};
+
+var _genetageUid = function _genetageUid() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+    var r = Math.random() * 16 | 0,
+        v = c == 'x' ? r : r & 0x3 | 0x8;
+    return v.toString(16);
+  });
+};
+
+function _generateUidReact(_ref) {
+  var target = _ref.target;
+
+  var componentName = target.constructor.name;
+  return _genetageUid() + "-" + componentName;
+}
+
+var status = function status() {
+  actions().map(function (action) {
+    var subscriptionMessage = findSubscriptions(action.name).map(function (message) {
+      return message.uid + " -> " + message.fnc.name;
+    });
+    console.log("All subscribers for the Action (" + action.name + ") = ", "[ " + subscriptionMessage + " ]");
+  });
+};
+
+//helpers
+
+var find = function find(actionName) {
+  return ACTIONS.find(function (action) {
+    return action.name == actionName;
+  });
+};
+
+var findSubscriptions = function findSubscriptions(actionName) {
+  return find(actionName).subscriptions;
+};
+
+var findSubscriptionsFnc = function findSubscriptionsFnc(actionName) {
+  return findSubscriptions(actionName).map(function (message) {
+    return message.fnc;
+  });
+};
+
+var destroyAllActions = function destroyAllActions() {
+  return ACTIONS = [];
+};
+
+var actions = function actions() {
+  return [].concat(_toConsumableArray(ACTIONS));
+};
+
+var config = {
+  enableDebugger: false,
+  trace: false
+};
+
+var debuggerConsole = function debuggerConsole() {
+  if (config.enableDebugger) {
+    if (arguments[0] == "dispatch") {
+      var _console;
+
+      (_console = console).info.apply(_console, arguments);
+    } else if (config.trace) {
+      var _console2;
+
+      (_console2 = console).info.apply(_console2, arguments);
+    }
+  }
+};
+
+//alias
+var send = dispatch;
+var publish = dispatch;
+var broadcast = dispatch;
+var addEventListener = receive;
+var PubSubEs6 = { dispatch: dispatch, receive: receive, on: on, unsubscribe: unsubscribe, status: status,
+  actions: actions, find: find, findSubscriptions: findSubscriptions, findSubscriptionsFnc: findSubscriptionsFnc, config: config };
+exports.PubSubEs6 = PubSubEs6;
+exports.dispatch = dispatch;
+exports.receive = receive;
+exports.on = on;
+exports.unsubscribe = unsubscribe;
+exports.status = status;
+exports.actions = actions;
+exports.find = find;
+exports.findSubscriptions = findSubscriptions;
+exports.findSubscriptionsFnc = findSubscriptionsFnc;
+exports.config = config;
 
 /***/ })
 /******/ ]);
