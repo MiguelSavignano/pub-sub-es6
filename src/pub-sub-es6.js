@@ -31,7 +31,7 @@ const dispatch = (...args) => {
     message.fnc.call(...args) //send all arguments expect the action name
   })
   debuggerConsole("dispatch", `PubSubEs6 | has been dispatch the action: #{actionName}`, {
-    subscriptions: action.subscriptions,
+    ...action,
     arguments: args.filter((item, index) => index != 0),
   })
   return true
@@ -123,17 +123,22 @@ const config = {
   },
 }
 
-const debuggerConsole = function(type, message, data){
+const debuggerConsole = function(type, message, data) {
   if (config.enableDebugger) {
-    if (config.trace.dispatch && type == "dispatch") {
-      console.info(message, data)
-    } else if (config.trace.receive && type == "receive") {
-      console.info(message, data)
-    } else if (config.trace.unsubscribe && type == "unsubscribe") {
-      console.info(message, data)
-    } else if (config.trace.not_found_subscriber && type == "not_found_subscriber") {
-      console.warn(message, data)
+    if (needTrace(type, message, data) && type == "not_found_subscriber") {
+      console.warn(message, action)
+    } else if (needTrace(type, message, data)) {
+      console.info(message, action)
     }
+  }
+}
+
+const needTrace = (type, message, data) => {
+  if (!config.trace[type]) { return false }
+  if (typeof config.trace[type] != "boolean") {
+    const actions_exepts = config.trace[type].exept
+    const actionName = data.name
+    return actions_exepts.includes(actionName) ? false : true
   }
 }
 
