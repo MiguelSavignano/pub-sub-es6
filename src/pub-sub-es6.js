@@ -151,3 +151,4 @@ const PubSubEs6 = {dispatch, receive, on, unsubscribe, status,
   actions, find, findSubscriptions, findSubscriptionsFnc, config}
 export {PubSubEs6, dispatch, receive, on, unsubscribe, status,
         actions, find, findSubscriptions, findSubscriptionsFnc, config}
+export default PubSubEs6
