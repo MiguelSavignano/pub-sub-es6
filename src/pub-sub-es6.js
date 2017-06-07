@@ -11,44 +11,46 @@ var ACTIONS = []
 const receive = (actionName, fnc, uid) => {
   var uid = uid || _genetageUid()
   var action = find(actionName)
-  if(!action){ 
+  if(!action){
     action = {name: actionName, subscriptions: []}
     ACTIONS.push(action)
   }
   const fncName = fnc.name
   action.subscriptions.push({ fnc, uid, fncName })
-  debuggerConsole(`${uid} receive ${actionName} with`, fnc.name)
+  debuggerConsole("receive", `PubSubEs6 | ${uid} receive ${actionName} with ${fncName}`, action)
   return uid
 }
 
 const dispatch = (...args) => {
   let actionName = Array.prototype.slice.call(args).shift()
   let action = find(actionName)
-  if (!action || action.subscriptions.length == 0) return console.warn(`No't found subscriber to the Action ${actionName}`)
+  if (!action || action.subscriptions.length == 0){
+    return debuggerConsole("not_found_subscriber", `PubSubEs6 | No't found subscriber to the action ${actionName}`, action)
+  }
   action.subscriptions.forEach(message => {
     message.fnc.call(...args) //send all arguments expect the action name
   })
-  debuggerConsole("dispatch", {
-    actionName,
+  debuggerConsole("dispatch", `PubSubEs6 | has been dispatch the action: #{actionName}`, {
     subscriptions: action.subscriptions,
-    message: args.filter((item, index) => index != 0),
+    arguments: args.filter((item, index) => index != 0),
   })
   return true
 }
 
 const unsubscribe = (actionName, fnc_or_uid) => {
-  if (!fnc_or_uid) return console.error("send a function or uid for unsubscribe")
+  if (!fnc_or_uid) return console.error("PubSubEs6 | Send a function or uid for unsubscribe")
   const key = typeof fnc_or_uid === 'string' ? 'uid' : 'fnc'
   var action = find(actionName)
   action.subscriptions = action.subscriptions.filter(message => message[key] !== fnc_or_uid)
-  debuggerConsole(`${fnc_or_uid} unsubscribe for ${actionName}`)
+  const key_name = key == "fnc" ? fnc_or_uid.name : fnc_or_uid
+  debuggerConsole("unsubscribe", `PubSubEs6 | ${key_name} unsubscribe for ${actionName}`, action)
 }
 
 //Decorator
 const on = function(actionType) {
   return function on(target, name, descriptor){
     var oldComponentDidMountFnc    = target.componentDidMount
-    var oldComponentWillUnmountFnc = target.componentWillUnmount 
+    var oldComponentWillUnmountFnc = target.componentWillUnmount
 
     target.componentDidMount = function(){
       const uid = _generateUidReact({ target })
@@ -62,11 +64,12 @@ const on = function(actionType) {
       this.__uids__ && this.__uids__.map(uid => unsubscribe(actionType, uid))
       if(oldComponentWillUnmountFnc) oldComponentWillUnmountFnc.bind(this)()
     }
-    
+
     return descriptor.value
   }
 }
 
+// private
 var _genetageUid = function () {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
     var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
@@ -77,13 +80,6 @@ var _genetageUid = function () {
 function _generateUidReact({ target }) {
   let componentName = target.constructor.name
   return `${_genetageUid()}-${componentName}`
-}
-
-const status = function(){
-  actions().map( function(action) {
-    const subscriptionMessage = findSubscriptions(action.name).map( message => `${message.uid} -> ${message.fnc.name}` )
-    console.log(`All subscribers for the Action (${action.name}) = `, `[ ${subscriptionMessage} ]`  )
-  })
 }
 
 //helpers
@@ -98,19 +94,47 @@ const destroyAllActions = () => ACTIONS = []
 
 const actions = () => [...ACTIONS]
 
-const config = {
-  enableDebugger: false,
-  trace: false,
+const status = function(){
+  actions().map( function(action) {
+    const subscriptionMessage = findSubscriptions(action.name).map( message => `${message.uid} -> ${message.fnc.name}` )
+    console.log(`PubSubEs6 | All subscribers for the action (${action.name}) = `, `[ ${subscriptionMessage} ]`  )
+  })
 }
 
-const debuggerConsole = function(){ 
-  if(config.enableDebugger){
-    if (arguments[0] == "dispatch"){
-      console.info(...arguments)
-    }else if (config.trace){
-      console.info(...arguments)
+const statusForAction = function(action){
+  const subscriptionMessage = findSubscriptions(action.name).map( message => `${message.uid} -> ${message.fnc.name}` )
+  console.log(`PubSubEs6 | All subscribers for the Action (${action.name}) = `, `[ ${subscriptionMessage} ]`  )
+}
+
+const isDevelopmentMode = () => {
+  if (typeof process != 'undefined'){
+    return (process.env && process.env.NODE_ENV !== 'production')
+  }
+  return true
+}
+
+const config = {
+  enableDebugger: isDevelopmentMode(),
+  trace: {
+    dispatch: false,
+    receive: false,
+    unsubscribe: false,
+    not_found_subscriber: true,
+  },
+}
+
+const debuggerConsole = function(type, message, data){
+  if (config.enableDebugger) {
+    if (config.trace.dispatch && type == "dispatch") {
+      console.info(message, data)
+    } else if (config.trace.receive && type == "receive") {
+      console.info(message, data)
+    } else if (config.trace.unsubscribe && type == "unsubscribe") {
+      console.info(message, data)
+    } else if (config.trace.not_found_subscriber && type == "not_found_subscriber") {
+      console.warn(message, data)
     }
-  } 
+  }
 }
 
 //alias
