@@ -1,6 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { on, dispatch } from '../lib/pub-sub-es6'
+import { on, dispatch, config } from '../src/pub-sub-es6'
+
+config.trace.dispatch = {exept: ["HI"]}
+config.trace.not_found_subscriber = {exept: ["SOME_OTHER"]}
 
 class App extends React.Component {
   @on("HI")
