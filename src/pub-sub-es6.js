@@ -13,9 +13,9 @@ const isDevelopmentMode = () => {
   }
   return true
 }
-class PubSubEs6 {
+class PubSubEs6Class {
 
-  constructor(){
+  constructor() {
     this.actions = []
   }
 
@@ -39,9 +39,9 @@ class PubSubEs6 {
       return this.debuggerConsole("not_found_subscriber", `PubSubEs6 | No't found subscriber to the action ${actionName}`, { name: actionName })
     }
     action.subscriptions.forEach(message => {
-      message.fnc.call(...args) //send all arguments except the action name
+      message.fnc.call(...args) // send all arguments except the action name
     })
-    this.debuggerConsole("dispatch", `PubSubEs6 | has been dispatch the action: #{actionName}`, {
+    this.debuggerConsole("dispatch", `PubSubEs6 | has been dispatch the action: ${actionName}`, {
       ...action,
       arguments: args.filter((item, index) => index != 0),
     })
@@ -57,14 +57,14 @@ class PubSubEs6 {
     this.debuggerConsole("unsubscribe", `PubSubEs6 | ${key_name} unsubscribe for ${actionName}`, action)
   }
 
-  // Decorator
-  on = (actionType) => {
+  // decorator
+  on = actionType => {
     const _generateUidReact = this._generateUidReact
-    return function on(target, name, descriptor){
+    return function on(target, name, descriptor) {
       var oldComponentDidMountFnc    = target.componentDidMount
       var oldComponentWillUnmountFnc = target.componentWillUnmount
 
-      target.componentDidMount = function(){
+      target.componentDidMount = function () {
         const uid = _generateUidReact({ target })
         if (!this.__uids__) this.__uids__ = []
         this.__uids__.push(uid)
@@ -72,7 +72,7 @@ class PubSubEs6 {
         if (oldComponentDidMountFnc) oldComponentDidMountFnc.bind(this)()
       }
 
-      target.componentWillUnmount = function(){
+      target.componentWillUnmount = function () {
         this.__uids__ && this.__uids__.map(uid => unsubscribe(actionType, uid))
         if(oldComponentWillUnmountFnc) oldComponentWillUnmountFnc.bind(this)()
       }
@@ -84,8 +84,8 @@ class PubSubEs6 {
   // private
   _genetageUid = () => {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-      return v.toString(16);
+      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8)
+      return v.toString(16)
     });
   }
 
@@ -94,18 +94,16 @@ class PubSubEs6 {
     return `${this._genetageUid()}-${componentName}`
   }
 
-  //helpers
+  // helpers
+  find = actionName => this.actions.find(action => action.name == actionName)
 
-  find = (actionName) => this.actions.find(action => action.name == actionName)
-
-  findSubscriptions = (actionName) => this.find(actionName).subscriptions
+  findSubscriptions = actionName => this.find(actionName).subscriptions
 
   destroyAllActions = () => this.actions = []
 
-  actions = () => [...this.actions]
+  allActions = () => [...this.actions]
 
   // devtools
-
   config = {
     enableDebugger: isDevelopmentMode(),
     trace: {
@@ -116,8 +114,7 @@ class PubSubEs6 {
     },
   }
 
-  debuggerConsole = function(type, message, data) {
-    // debugger;
+  debuggerConsole = (type, message, data) => {
     if (this.config.enableDebugger) {
       if (this.needTrace(type, message, data) && type == "not_found_subscriber") {
         console.warn(message, data)
@@ -138,21 +135,26 @@ class PubSubEs6 {
   }
 
   status = () => {
-    this.actions().map( function(action) {
-      const subscriptionMessage = this.findSubscriptions(action.name).map( message => `${message.uid} -> ${message.fnc.name}` )
-      console.log(`PubSubEs6 | All subscribers for the action (${action.name}) = `, `[ ${subscriptionMessage} ]`  )
+    this.allActions().map(action => {
+      const subscriptionMessage = this.findSubscriptions(action.name).map(message => `${this.getSimpleUid(message.uid)} -> ${message.fnc.name}`)
+      console.log(`PubSubEs6 | All subscribers for the action (${action.name}) = `, `[ ${subscriptionMessage} ]`)
     })
   }
 
-  statusForAction = function(action){
-    const subscriptionMessage = this.findSubscriptions(action.name).map( message => `${message.uid} -> ${message.fnc.name}` )
-    console.log(`PubSubEs6 | All subscribers for the Action (${action.name}) = `, `[ ${subscriptionMessage} ]`  )
+  statusForAction = actionName => {
+    const subscriptionMessage = this.findSubscriptions(actionName).map(message => `${this.getSimpleUid(message.uid)} -> ${message.fnc.name}`)
+    console.log(`PubSubEs6 | All subscribers for the Action (${actionName}) = `, `[ ${subscriptionMessage} ]`)
   }
+
+  lastItem = (array) => array[array.length - 1]
+
+  getSimpleUid = (string = "") => this.lastItem(string.split("-"))
 
 }
 
-const pubSubEs6 = new PubSubEs6()
+const pubSubEs6 = new PubSubEs6Class()
+global.PubSubEs6 = pubSubEs6
 export default pubSubEs6
 const { on, dispatch, unsubscribe, receive } = pubSubEs6
-export { on, dispatch, unsubscribe, receive }
+export { on, dispatch, unsubscribe, receive, PubSubEs6Class }
 

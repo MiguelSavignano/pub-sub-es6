@@ -2,8 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import PubSubEs6, { on, dispatch } from '../src/pub-sub-es6'
 
-PubSubEs6.config.trace.dispatch = { exept: ["HI"] }
-PubSubEs6.config.trace.not_found_subscriber = { exept: ["SOME_OTHER"] }
+PubSubEs6.config.trace.not_found_subscriber = { exept: ["MY_LOOP_ACTION"] }
 
 class App extends React.Component {
   @on("HI")
@@ -20,4 +19,4 @@ class App extends React.Component {
 ReactDOM.render(<App />, document.getElementById("react-root"))
 
 dispatch("HI", "Miguel2")
-dispatch("SOME_OTHER", "Miguel")
+dispatch("MY_LOOP_ACTION", "Miguel")
