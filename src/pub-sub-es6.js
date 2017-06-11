@@ -153,8 +153,6 @@ class PubSubEs6 {
 
 const pubSubEs6 = new PubSubEs6()
 export default pubSubEs6
-const { on, dispatch, unsubscribe, receive, config,
-  status, findSubscriptions } = pubSubEs6
-export { on, dispatch, unsubscribe, receive, config,
-  status, findSubscriptions }
+const { on, dispatch, unsubscribe, receive } = pubSubEs6
+export { on, dispatch, unsubscribe, receive }
 
