@@ -16,4 +16,5 @@ class App extends React.Component {
 
 ReactDOM.render(<App />, document.getElementById("react-root"))
 
-dispatch("HI", "Miguel")
+dispatch("HI", "Miguel2")
+dispatch("SOME_OTHER", "Miguel")
