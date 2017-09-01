@@ -19,8 +19,8 @@ The function onAddItem will be called when dispatched the action "ADD_ITEM".
 
 ```javascript
 import {dispatch, receive, on}  from 'pub-sub-es6'
-//ShoppingCard.jsx
-class ShoppingCard extends React.Component {
+//ShoppingCart.jsx
+class ShoppingCart extends React.Component {
 
   state = { items: [] }
 
@@ -35,19 +35,10 @@ class ShoppingCard extends React.Component {
 
 }
 
-//Item.jsx
-class Item extends React.Component {
-
-  onClickHandler(item){
-    const { item, language } = this.props
-    dispatch("ADD_ITEM", item, language)
-  }
-
-  render(){
-    //....
-  }
-
-}
+// Item.jsx
+const Item = ({ item }) => (
+  <div onClick={() => dispatch("ADD_ITEM", item)}></div>
+)
 
 ```
 ### dispatch
@@ -57,23 +48,23 @@ class Item extends React.Component {
 ### receive
 ```javascript
   receive("OPEN_SIGN_IN", (type) => type == 'modal' ? openModal() : redirectToSignIn() )
- ```
+```
 ### unsubscribe
 ```javascript
   var fnc = (data) => {}
-  receive("MESSAGE", fnc, "custom-uid")
-  unsubscribe("MESSAGE", "custom-uid") // anyone can unsubscribe
+  receive("ACTION", fnc, "custom-uid")
+  unsubscribe("ACTION", "custom-uid")
   // or
   var fnc = () => {}
-  const uid = receive("MESSAGE", fnc)
-  unsubscribe("MESSAGE", uid)
- ```
+  const uid = receive("ACTION", fnc)
+  unsubscribe("ACTION", uid)
+```
 
 ## React comunication with plain javascript
 
 ```javascript
-//ShoppingCard.jsx
-class ShoppingCard extends React.Component {
+// ShoppingCart.jsx
+class ShoppingCart extends React.Component {
 
   state = { items: [] }
 
@@ -89,7 +80,7 @@ class ShoppingCard extends React.Component {
 <li class="js-item-action-add" data-item='{"name":"My Item"}'>My Item</li>
 ```
 ```javascript
-//my_controller.js
+// my_controller.js
 $(".js-item-action-add").on("click", function(event) {
   PubSubEs6.dispatch("ADD_ITEM", $(this).data("item"))
 })
@@ -99,28 +90,16 @@ $(".js-item-action-add").on("click", function(event) {
 * The actions names it's a global name, it's recomended create a file with the actions names to avoid duplicate a action name.
 
 ```javascript
-//site_actions.js
+// site_actions.js
 const actionsSite = {
   item:{
     add: "ADD_ITEM",
   }
 }
 
-//Item.jsx
 import action from './site_actions'
+dispatch(action.item.add, item, language)
 
-class Item extends React.Component {
-
-  onClickHandler(item){
-    const {item, language} = this.props
-    dispatch(action.item.add, item, language)
-  }
-
-  render(){
-    //....
-  }
-
-}
 ```
 
 ## Devtools
@@ -139,7 +118,6 @@ Devtools it's a simple console logger for trace your actions.
 ```
 ### findSubscriptions
  ```javascript
-
    PubSubEs6.findSubscriptions("MESSAGE")
    // [ fnc, "uid-token" ]
  ```
