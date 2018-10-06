@@ -35,6 +35,12 @@ test('#unsubscribe', () => {
 
 test('#status', () => {
   const response = pubSubEs6.status()
-  expect(response).toBe(Array);
+  expect(response).toBeArray();
 });
+
+test('#statusForAction', () => {
+  const response = pubSubEs6.statusForAction("Action4")
+  expect(response).toBe(undefined);
+});
+
 

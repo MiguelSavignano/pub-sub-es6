@@ -98,7 +98,7 @@ class PubSubEs6Class {
   // helpers
   find = actionName => this.actions.find(action => action.name == actionName)
 
-  findSubscriptions = actionName => this.find(actionName).subscriptions
+  findSubscriptions = actionName => this.find(actionName) ? this.find(actionName).subscriptions : []
 
   destroyAllActions = () => this.actions = []
 

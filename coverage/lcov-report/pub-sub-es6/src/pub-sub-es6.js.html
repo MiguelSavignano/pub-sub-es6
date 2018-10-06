@@ -1,14 +1,14 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for pub-sub-es6.js</title>
+    <title>Code coverage report for pub-sub-es6/src/pub-sub-es6.js</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="prettify.css" />
-    <link rel="stylesheet" href="base.css" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style type='text/css'>
         .coverage-summary .sorter {
-            background-image: url(sort-arrow-sprite.png);
+            background-image: url(../../sort-arrow-sprite.png);
         }
     </style>
 </head>
@@ -16,28 +16,28 @@
 <div class='wrapper'>
   <div class='pad1'>
     <h1>
-      <a href="index.html">All files</a> pub-sub-es6.js
+      <a href="../../index.html">All files</a> / <a href="index.html">pub-sub-es6/src</a> pub-sub-es6.js
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">56.98% </span>
+        <span class="strong">59.3% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>49/86</span>
+        <span class='fraction'>51/86</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">41.86% </span>
+        <span class="strong">44.44% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>18/43</span>
+        <span class='fraction'>20/45</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">63.33% </span>
+        <span class="strong">66.67% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>19/30</span>
+        <span class='fraction'>20/30</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">60% </span>
+        <span class="strong">62.67% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>45/75</span>
+        <span class='fraction'>47/75</span>
       </div>
     </div>
   </div>
@@ -303,9 +303,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">24x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -351,8 +351,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
@@ -467,7 +467,7 @@ class PubSubEs6Class {
   // helpers
   find = actionName =&gt; this.actions.find(action =&gt; action.name == actionName)
 &nbsp;
-  findSubscriptions = actionName =&gt; this.find(actionName).subscriptions
+  findSubscriptions = actionName =&gt; this.find(actionName) ? this.find(actionName).subscriptions : []
 &nbsp;
   destroyAllActions = <span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >this.actions = []</span>
 &nbsp;
@@ -512,9 +512,9 @@ class PubSubEs6Class {
     })
   }
 &nbsp;
-  statusForAction = <span class="fstat-no" title="function not covered" >ac</span>tionName =&gt; {
-    const subscriptionMessage = <span class="cstat-no" title="statement not covered" >this.findSubscriptions(actionName).map(<span class="fstat-no" title="function not covered" >me</span>ssage =&gt; <span class="cstat-no" title="statement not covered" >`${this.getSimpleUid(message.uid)} -&gt; ${message.fnc.name}`)</span></span>
-<span class="cstat-no" title="statement not covered" >    console.log(`PubSubEs6 | All subscribers for the Action (${actionName}) = `, `[ ${subscriptionMessage} ]`)</span>
+  statusForAction = actionName =&gt; {
+    const subscriptionMessage = this.findSubscriptions(actionName).map(<span class="fstat-no" title="function not covered" >me</span>ssage =&gt; <span class="cstat-no" title="statement not covered" >`${this.getSimpleUid(message.uid)} -&gt; ${message.fnc.name}`)</span>
+    console.log(`PubSubEs6 | All subscribers for the Action (${actionName}) = `, `[ ${subscriptionMessage} ]`)
   }
 &nbsp;
   lastItem = (array) =&gt; array[array.length - 1]
@@ -535,10 +535,10 @@ export { on, dispatch, unsubscribe, receive, PubSubEs6Class }
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Oct 06 2018 23:46:33 GMT+0200 (CEST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Oct 06 2018 23:51:52 GMT+0200 (CEST)
 </div>
 </div>
-<script src="prettify.js"></script>
+<script src="../../prettify.js"></script>
 <script>
 window.onload = function () {
         if (typeof prettyPrint === 'function') {
@@ -546,6 +546,6 @@ window.onload = function () {
         }
 };
 </script>
-<script src="sorter.js"></script>
+<script src="../../sorter.js"></script>
 </body>
 </html>
