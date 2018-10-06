@@ -2,6 +2,7 @@ import pubSubEs6, { receive, dispatch, unsubscribe, allActions } from '../src/pu
 
 pubSubEs6.config = {
   ...pubSubEs6.config,
+  enableDebugger: true,
   trace: {
     not_found_subscriber: false
   }
@@ -31,3 +32,9 @@ test('#unsubscribe', () => {
   // console.log(pubSubEs6.actions)
   expect(pubSubEs6.findSubscriptions("Action3")).toHaveLength(0);
 });
+
+test('#status', () => {
+  const response = pubSubEs6.status()
+  expect(response).toBe(Array);
+});
+

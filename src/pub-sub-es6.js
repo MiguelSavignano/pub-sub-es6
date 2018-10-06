@@ -136,9 +136,10 @@ class PubSubEs6Class {
   }
 
   status = () => {
-    this.allActions().map(action => {
+    return this.allActions().map(action => {
       const subscriptionMessage = this.findSubscriptions(action.name).map(message => `${this.getSimpleUid(message.uid)} -> ${message.fnc.name}`)
       console.log(`PubSubEs6 | All subscribers for the action (${action.name}) = `, `[ ${subscriptionMessage} ]`)
+      return subscriptionMessage
     })
   }
 

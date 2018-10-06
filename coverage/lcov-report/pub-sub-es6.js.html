@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">48.24% </span>
+        <span class="strong">56.98% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>41/85</span>
+        <span class='fraction'>49/86</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">41.86% </span>
@@ -30,18 +30,18 @@
         <span class='fraction'>18/43</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">43.33% </span>
+        <span class="strong">63.33% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>13/30</span>
+        <span class='fraction'>19/30</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">51.35% </span>
+        <span class="strong">60% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>38/74</span>
+        <span class='fraction'>45/75</span>
       </div>
     </div>
   </div>
-  <div class='status-line low'></div>
+  <div class='status-line medium'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet">1
 2
@@ -204,7 +204,8 @@
 159
 160
 161
-162</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+162
+163</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -302,13 +303,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">14x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -342,9 +343,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -353,9 +355,9 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -469,7 +471,7 @@ class PubSubEs6Class {
 &nbsp;
   destroyAllActions = <span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >this.actions = []</span>
 &nbsp;
-  allActions = <span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >[...this.actions]</span>
+  allActions = () =&gt; [...this.actions]
 &nbsp;
   // devtools
   config = {
@@ -502,10 +504,11 @@ class PubSubEs6Class {
 <span class="cstat-no" title="statement not covered" >    return true</span>
   }
 &nbsp;
-  status = <span class="fstat-no" title="function not covered" >()</span> =&gt; {
-<span class="cstat-no" title="statement not covered" >    this.allActions().map(<span class="fstat-no" title="function not covered" >ac</span>tion =&gt; {</span>
-      const subscriptionMessage = <span class="cstat-no" title="statement not covered" >this.findSubscriptions(action.name).map(<span class="fstat-no" title="function not covered" >me</span>ssage =&gt; <span class="cstat-no" title="statement not covered" >`${this.getSimpleUid(message.uid)} -&gt; ${message.fnc.name}`)</span></span>
-<span class="cstat-no" title="statement not covered" >      console.log(`PubSubEs6 | All subscribers for the action (${action.name}) = `, `[ ${subscriptionMessage} ]`)</span>
+  status = () =&gt; {
+    return this.allActions().map(action =&gt; {
+      const subscriptionMessage = this.findSubscriptions(action.name).map(message =&gt; `${this.getSimpleUid(message.uid)} -&gt; ${message.fnc.name}`)
+      console.log(`PubSubEs6 | All subscribers for the action (${action.name}) = `, `[ ${subscriptionMessage} ]`)
+      return subscriptionMessage
     })
   }
 &nbsp;
@@ -514,9 +517,9 @@ class PubSubEs6Class {
 <span class="cstat-no" title="statement not covered" >    console.log(`PubSubEs6 | All subscribers for the Action (${actionName}) = `, `[ ${subscriptionMessage} ]`)</span>
   }
 &nbsp;
-  lastItem = <span class="fstat-no" title="function not covered" >(a</span>rray) =&gt; <span class="cstat-no" title="statement not covered" >array[array.length - 1]</span>
+  lastItem = (array) =&gt; array[array.length - 1]
 &nbsp;
-  getSimpleUid = <span class="fstat-no" title="function not covered" >(s</span>tring = <span class="branch-0 cbranch-no" title="branch not covered" >"")</span> =&gt; <span class="cstat-no" title="statement not covered" >this.lastItem(string.split("-"))</span>
+  getSimpleUid = (string = <span class="branch-0 cbranch-no" title="branch not covered" >"")</span> =&gt; this.lastItem(string.split("-"))
 &nbsp;
 }
 &nbsp;
@@ -532,7 +535,7 @@ export { on, dispatch, unsubscribe, receive, PubSubEs6Class }
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Oct 06 2018 23:32:40 GMT+0200 (CEST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Oct 06 2018 23:38:57 GMT+0200 (CEST)
 </div>
 </div>
 <script src="prettify.js"></script>
