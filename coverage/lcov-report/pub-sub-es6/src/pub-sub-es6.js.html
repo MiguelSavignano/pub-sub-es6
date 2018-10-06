@@ -1,0 +1,551 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for pub-sub-es6/src/pub-sub-es6.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">All files</a> / <a href="index.html">pub-sub-es6/src</a> pub-sub-es6.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">90.7% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>78/86</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">71.11% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>32/45</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">93.33% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>28/30</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">94.67% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>71/75</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">31x</span>
+<span class="cline-any cline-yes">31x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">25x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">&nbsp;
+// actions = [
+//   {
+//     name,
+//     subscriptions: [ message ]
+//   }
+// ]
+// message { fnc, uid, fncName }
+&nbsp;
+const isDevelopmentMode = () =&gt; {
+  <span class="missing-if-branch" title="else path not taken" >E</span>if (typeof process != 'undefined'){
+    return (process.env &amp;&amp; process.env.NODE_ENV !== 'production')
+  }
+<span class="cstat-no" title="statement not covered" >  return true</span>
+}
+class PubSubEs6Class {
+&nbsp;
+  constructor() {
+    this.actions = []
+  }
+&nbsp;
+  receive = (actionName, fnc, uid) =&gt; {
+    var uid = uid || <span class="branch-1 cbranch-no" title="branch not covered" >this._genetageUid()</span>
+    var action = this.find(actionName)
+    if(!action){
+      action = { name: actionName, subscriptions: [] }
+      this.actions.push(action)
+    }
+    const fncName = fnc.name
+    action.subscriptions.push({ fnc, uid, fncName })
+    this.debuggerConsole("receive", `PubSubEs6 | ${uid} receive ${actionName} with ${fncName}`, action)
+    return uid
+  }
+&nbsp;
+  dispatch = (...args) =&gt; {
+    let actionName = Array.prototype.slice.call(args).shift()
+    let action = this.find(actionName)
+    if (!action || action.subscriptions.length == 0){
+      return this.debuggerConsole("not_found_subscriber", `PubSubEs6 | No't found subscriber to the action ${actionName}`, { name: actionName })
+    }
+    action.subscriptions.forEach(message =&gt; {
+      message.fnc.call(...args) // send all arguments except the action name
+    })
+    this.debuggerConsole("dispatch", `PubSubEs6 | has been dispatch the action: ${actionName}`, {
+      ...action,
+      arguments: args.filter((item, index) =&gt; index != 0),
+    })
+    return true
+  }
+&nbsp;
+  unsubscribe = (actionName, fnc_or_uid) =&gt; {
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (!fnc_or_uid) <span class="cstat-no" title="statement not covered" >return console.error("PubSubEs6 | Send a function or uid for unsubscribe")</span>
+    const key = typeof fnc_or_uid === 'string' ? 'uid' : <span class="branch-1 cbranch-no" title="branch not covered" >'fnc'</span>
+    var action = this.find(actionName)
+    action.subscriptions = action.subscriptions.filter(message =&gt; message[key] !== fnc_or_uid)
+    const key_name = key == "fnc" ? <span class="branch-0 cbranch-no" title="branch not covered" >fnc_or_uid.name </span>: fnc_or_uid
+    this.debuggerConsole("unsubscribe", `PubSubEs6 | ${key_name} unsubscribe for ${actionName}`, action)
+    return [actionName, fnc_or_uid]
+  }
+&nbsp;
+  // decorator
+  on = actionType =&gt; {
+    const _generateUidReact = this._generateUidReact
+    return function on(target, name, descriptor) {
+      var oldComponentDidMountFnc    = target.componentDidMount
+      var oldComponentWillUnmountFnc = target.componentWillUnmount
+&nbsp;
+      target.componentDidMount = function () {
+        const uid = _generateUidReact({ target })
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (!this.__uids__) this.__uids__ = []
+        this.__uids__.push(uid)
+        receive(actionType, this[name].bind(this), uid)
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (oldComponentDidMountFnc) <span class="cstat-no" title="statement not covered" >oldComponentDidMountFnc.bind(this)()</span>
+      }
+&nbsp;
+      target.componentWillUnmount = function () {
+        this.__uids__ &amp;&amp; this.__uids__.map(uid =&gt; unsubscribe(actionType, uid))
+        <span class="missing-if-branch" title="if path not taken" >I</span>if(oldComponentWillUnmountFnc) <span class="cstat-no" title="statement not covered" >oldComponentWillUnmountFnc.bind(this)()</span>
+      }
+&nbsp;
+      return descriptor.value
+    }
+  }
+&nbsp;
+  // private
+  _genetageUid = () =&gt; {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r &amp; 0x3 | 0x8)
+      return v.toString(16)
+    });
+  }
+&nbsp;
+  _generateUidReact = ({ target }) =&gt; {
+    let componentName = target.constructor.name
+    return `${this._genetageUid()}-${componentName}`
+  }
+&nbsp;
+  // helpers
+  find = actionName =&gt; this.actions.find(action =&gt; action.name == actionName)
+&nbsp;
+  findSubscriptions = actionName =&gt; this.find(actionName) ? this.find(actionName).subscriptions : []
+&nbsp;
+  destroyAllActions = <span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >this.actions = []</span>
+&nbsp;
+  allActions = () =&gt; [...this.actions]
+&nbsp;
+  // devtools
+  config = {
+    enableDebugger: isDevelopmentMode(),
+    trace: {
+      dispatch: true,
+      receive: false,
+      unsubscribe: false,
+      not_found_subscriber: true,
+    },
+  }
+&nbsp;
+  debuggerConsole = (type, message, data) =&gt; {
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (this.config.enableDebugger) {
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (this.needTrace(type, message, data) &amp;&amp; type == "not_found_subscriber") {
+<span class="cstat-no" title="statement not covered" >        console.warn(message, data)</span>
+      } else if (this.needTrace(type, message, data)) {
+        console.info(message, data)
+      }
+    }
+  }
+&nbsp;
+  needTrace = (type, message, data) =&gt; {
+    if (!this.config.trace[type]) { return false }
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (typeof this.config.trace[type] != "boolean") {
+      const actions_exepts = this.config.trace[type].exept
+      const actionName = data.name
+      return actions_exepts.includes(actionName) ? <span class="branch-0 cbranch-no" title="branch not covered" >false </span>: true
+    }
+<span class="cstat-no" title="statement not covered" >    return true</span>
+  }
+&nbsp;
+  status = () =&gt; {
+    return this.allActions().map(action =&gt; {
+      const subscriptionMessage = this.findSubscriptions(action.name).map(message =&gt; `${this.getSimpleUid(message.uid)} -&gt; ${message.fnc.name}`)
+      console.log(`PubSubEs6 | All subscribers for the action (${action.name}) = `, `[ ${subscriptionMessage} ]`)
+      return subscriptionMessage
+    })
+  }
+&nbsp;
+  statusForAction = actionName =&gt; {
+    const subscriptionMessage = this.findSubscriptions(actionName).map(<span class="fstat-no" title="function not covered" >me</span>ssage =&gt; <span class="cstat-no" title="statement not covered" >`${this.getSimpleUid(message.uid)} -&gt; ${message.fnc.name}`)</span>
+    console.log(`PubSubEs6 | All subscribers for the Action (${actionName}) = `, `[ ${subscriptionMessage} ]`)
+  }
+&nbsp;
+  lastItem = (array) =&gt; array[array.length - 1]
+&nbsp;
+  getSimpleUid = (string = <span class="branch-0 cbranch-no" title="branch not covered" >"")</span> =&gt; this.lastItem(string.split("-"))
+&nbsp;
+}
+&nbsp;
+const pubSubEs6 = new PubSubEs6Class()
+global.PubSubEs6 = pubSubEs6
+export default pubSubEs6
+const { on, dispatch, unsubscribe, receive } = pubSubEs6
+export { on, dispatch, unsubscribe, receive, PubSubEs6Class }
+&nbsp;
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun Oct 07 2018 00:36:55 GMT+0200 (CEST)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>
