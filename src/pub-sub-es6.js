@@ -55,6 +55,7 @@ class PubSubEs6Class {
     action.subscriptions = action.subscriptions.filter(message => message[key] !== fnc_or_uid)
     const key_name = key == "fnc" ? fnc_or_uid.name : fnc_or_uid
     this.debuggerConsole("unsubscribe", `PubSubEs6 | ${key_name} unsubscribe for ${actionName}`, action)
+    return [actionName, fnc_or_uid]
   }
 
   // decorator
