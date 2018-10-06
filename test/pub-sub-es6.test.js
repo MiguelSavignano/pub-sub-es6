@@ -4,7 +4,10 @@ pubSubEs6.config = {
   ...pubSubEs6.config,
   enableDebugger: true,
   trace: {
-    not_found_subscriber: false
+    not_found_subscriber: false,
+    dispatch: {
+      exept: ["MyLoopFnc"]
+    }
   }
 }
 

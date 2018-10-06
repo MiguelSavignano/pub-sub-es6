@@ -18,4 +18,5 @@ test('#on', () => {
   );
   let tree = component.toJSON();
   expect(tree).toBe(null);
+  component.unmount()
 });
